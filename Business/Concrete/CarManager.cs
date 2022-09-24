@@ -1,11 +1,7 @@
 ﻿using Business.Abstract;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Business.Concrete
 {
@@ -23,37 +19,40 @@ namespace Business.Concrete
             _carDal = carDal;
         }
 
-        public List<Car> GetAll()
+        public IDataResult<List<Car>> GetAll()
         {
             //iş kodları
             //yetkisi var mı? şartlar uyugn mu? vb. kodlar
             //business layerda bu kodlar yazılır
-            return _carDal.GetAll();
+            return new SuccessDataResult <List<Car>>(_carDal.GetAll());
         }
 
-        public void Add(Car car)
+        public IResult Add(Car car)
         {
             if(car.CarName.Length < 2)
             {
                 Console.WriteLine("Araba adı minimum 2 karakter olmalıdır.");
+                return new ErrorResult();
             }
             else if (car.DailyPrice <= 0)
             {
                 Console.WriteLine("Araba günlük fiyatı 0'dan büyük olmalıdır.");
+                return new ErrorResult();
             }
             else
             {
                 _carDal.Add(car);
             }
+            return new Result(true, "Araba eklendi.");
         }
-        public List<Car> GetCarsByBrandId(int id)
+        public IDataResult<List<Car>> GetCarsByBrandId(int id)
         {
-            return _carDal.GetAll(c => c.BrandId == id);
+            return new SuccessDataResult<List<Car>> (_carDal.GetAll(c => c.BrandId == id) );
         }
 
-        public List<Car> GetCarsByColorId(int id)
+        public IDataResult<List<Car>> GetCarsByColorId(int id)
         {
-            return _carDal.GetAll(c => c.ColorId == id);
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.ColorId == id));
         }
     }
 }
