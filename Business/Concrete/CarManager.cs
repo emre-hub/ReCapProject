@@ -21,29 +21,38 @@ namespace Business.Concrete
 
         public IDataResult<List<Car>> GetAll()
         {
-            //iş kodları
-            //yetkisi var mı? şartlar uyugn mu? vb. kodlar
-            //business layerda bu kodlar yazılır
             return new SuccessDataResult <List<Car>>(_carDal.GetAll());
         }
 
         public IResult Add(Car car)
         {
-            if(car.CarName.Length < 2)
-            {
-                Console.WriteLine("Araba adı minimum 2 karakter olmalıdır.");
-                return new ErrorResult();
-            }
-            else if (car.DailyPrice <= 0)
-            {
-                Console.WriteLine("Araba günlük fiyatı 0'dan büyük olmalıdır.");
-                return new ErrorResult();
-            }
-            else
-            {
-                _carDal.Add(car);
-            }
+            _carDal.Add(car);
             return new Result(true, "Araba eklendi.");
+        }
+
+        public IResult Update(Car car)
+        {
+            try
+            {
+                _carDal.Update(car);
+                return new Result(true, "Araba güncellendi.");
+            }
+            catch
+            {
+                return new ErrorDataResult<Customer>("Bir hata meydana geldi.");
+            }
+        }
+        public IResult Delete(Car car)
+        {
+            try
+            {
+                _carDal.Delete(car);
+                return new Result(true, "Araba silindi.");
+            }
+            catch
+            {
+                return new ErrorDataResult<Customer>("Bir hata meydana geldi.");
+            }
         }
         public IDataResult<List<Car>> GetCarsByBrandId(int id)
         {

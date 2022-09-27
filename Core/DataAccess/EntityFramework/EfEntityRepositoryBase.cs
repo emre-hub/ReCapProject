@@ -37,7 +37,7 @@ namespace Core.DataAccess.EntityFramework
         {
             using (TContext context = new TContext())
             {
-                return context.Set<TEntity>().SingleOrDefault(filter); //bir TEntity nesnesi gönderilecek   
+                return context.Set<TEntity>().SingleOrDefault(filter); 
             }
         }
 
@@ -63,3 +63,5 @@ namespace Core.DataAccess.EntityFramework
         }
     }
 }
+
+
