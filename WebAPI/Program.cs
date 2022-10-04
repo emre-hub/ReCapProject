@@ -1,5 +1,8 @@
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using Business.Abstract;
 using Business.Concrete;
+using Business.DependencyResolvers.Autofac;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 
@@ -18,14 +21,9 @@ namespace WebAPI
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddSingleton<ICarService, CarManager>();
-            builder.Services.AddSingleton<ICarDal, EfCarDal>();
-            builder.Services.AddSingleton<ICustomerService, CustomerManager>();
-            builder.Services.AddSingleton<ICustomerDal, EfCustomerDal>();
-            builder.Services.AddSingleton<IUserService, UserManager>();
-            builder.Services.AddSingleton<IUserDal, EfUserDal>();
-            builder.Services.AddSingleton<IRentalService, RentalManager>();
-            builder.Services.AddSingleton<IRentalDal, EfRentalDal>();
+            //Autofac :
+            builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+            builder.Host.ConfigureContainer<ContainerBuilder>(builder => builder.RegisterModule(new AutofacBusinessModule()));
 
             var app = builder.Build();
 

@@ -6,8 +6,10 @@
         //class icerisindeki private fieldlar camelCase ile yazılır
         //public fieldlar PascalCase ile yazılır.
         public static string CarAdded = "Araba eklendi.";
+        public static string CarUpdated = "Araba güncellendi.";
         public static string CarNameInvalid = "Araba ismi geçersiz."; //Bu kısım daha sonra Fluent Validation ile kodlanacak.
         public static string MaintenanceTime = "Sistem bakımda.";
         public static string CarsListed = "Arabalar listelendi.";
+        public static string CarIsAlreadyExist = "Bu CarId bilgisine sahip araba sistemde zaten mevcut.";
     }
 }
